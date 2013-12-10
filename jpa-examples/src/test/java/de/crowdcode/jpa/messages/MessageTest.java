@@ -1,11 +1,12 @@
 package de.crowdcode.jpa.messages;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.FlushModeType;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.junit.After;
@@ -22,6 +23,8 @@ public class MessageTest {
 	private static EntityManagerFactory emf;
 	
 	private EntityManager em;
+	
+	private static Long messageId;
 	
 	@BeforeClass
 	public static void setUpClass()
@@ -58,16 +61,18 @@ public class MessageTest {
 	@Test
 	public void test_1_Persist() {
 		Message message = new Message();
-		message.setId(12L);
+//		message.setId(messageId);
 		message.setText("Hello Database");
 		
 		em.persist(message);
+		assertNotNull(message.getId());
+		messageId = message.getId();
 	}
 	
 	@Test
 	public void test_2_Find()
 	{
-		Message message = em.find(Message.class, 12L);
+		Message message = em.find(Message.class, messageId);
 		assertEquals("Hello Database", message.getText());
 	}
 	
@@ -76,7 +81,7 @@ public class MessageTest {
 	{
 		em.getTransaction().rollback();
 		
-		Message message = em.find(Message.class, 12L);
+		Message message = em.find(Message.class, messageId);
 		
 		message.setText("Update Database");
 		em.getTransaction().begin();
@@ -86,7 +91,7 @@ public class MessageTest {
 	@Test
 	public void test_4_merge()
 	{
-		Message message = em.find(Message.class, 12L);
+		Message message = em.find(Message.class, messageId);
 		
 		em.detach(message);
 		message.setText("UPDATE 1");
@@ -100,9 +105,12 @@ public class MessageTest {
 	@Test
 	public void test_5_refresh()
 	{
-		Message message = em.find(Message.class, 12L);
+		Message message = em.find(Message.class, messageId);
 		
-		em.createNativeQuery("UPDATE Message SET text='updated' WHERE id=12").executeUpdate();
+		Query query = em.createNativeQuery("UPDATE Message SET text=:text WHERE id=:id");
+		query.setParameter("id", messageId);
+		query.setParameter("text", "updated");
+		query.executeUpdate();
 		
 		assertEquals("UPDATE 3", message.getText());
 		
@@ -116,7 +124,7 @@ public class MessageTest {
 	public void test_6_flush()
 	{
 		em.setFlushMode(FlushModeType.AUTO);
-		Message message = em.find(Message.class, 12L);
+		Message message = em.find(Message.class, messageId);
 		message.setText("flush");
 		em.flush();
 		message.setText("after flush");
@@ -126,7 +134,7 @@ public class MessageTest {
 		em.createNativeQuery("SELECT * FROM message WHERE text like '%after%'").getResultList();
 //		em.clear();
 		em.flush();
-		Message found = em.find(Message.class, 12L);
+		Message found = em.find(Message.class, messageId);
 		em.refresh(message);
 		
 	}
@@ -135,7 +143,7 @@ public class MessageTest {
 	public void test_7_findby()
 	{
 		TypedQuery<Message> query = em.createQuery("SELECT m FROM Message m WHERE m.id = :id", Message.class);
-		query.setParameter("id", 12L);
+		query.setParameter("id", messageId);
 		Message message = query.getSingleResult();
 		assertEquals("updated", message.getText());
 	}
@@ -143,8 +151,8 @@ public class MessageTest {
 	@Test
 	public void test_9_1_Delete()
 	{
-//		Message message = em.find(Message.class, 12L);
-		Message reference = em.getReference(Message.class, 12L);
+//		Message message = em.find(Message.class, messageId);
+		Message reference = em.getReference(Message.class, messageId);
 		em.remove(reference);
 	}
 	
@@ -152,7 +160,7 @@ public class MessageTest {
 	public void test_9_9_execute_ql()
 	{
 		Message message = new Message();
-		message.setId(13L);
+//		message.setId(13L);
 		message.setText("Hello Database");
 		em.persist(message);
 		em.getTransaction().commit();
