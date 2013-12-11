@@ -1,12 +1,12 @@
-package de.crowdcode.jpa.examples;
+package de.crowdcode.jpa.vehicles;
+
+import static org.junit.Assert.*;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -14,13 +14,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.crowdcode.jpa.vehicles.Engine;
-import de.crowdcode.jpa.vehicles.EngineType;
-import de.crowdcode.jpa.vehicles.Manufacturer;
-import de.crowdcode.jpa.vehicles.Price;
-import de.crowdcode.jpa.vehicles.Vehicle;
-
-public class DocumentJpaTest {
+public class OrphanRemovalJpaTest {
 
 	private static EntityManagerFactory emf;
 	
@@ -45,7 +39,7 @@ public class DocumentJpaTest {
 	}
 	
 	@Test
-	public void test_1_DocumentPersist() throws Exception {
+	public void test_1_ManufacturerVehiclePersist() throws Exception {
 		Manufacturer bugatti = new Manufacturer("Bugatti");
 		Engine engine = new Engine("Engien", 1200.0, EngineType.PETROL);
 		
@@ -57,22 +51,13 @@ public class DocumentJpaTest {
 		
 		txBegin();
 		em.persist(bugatti);
-		
-		
-		em.persist(new Document<>(bugatti, "content"));
-		em.persist(new Document<>(veyron, "veyron"));
-		em.persist(new Document<>(grandSports, "grandsports"));
-		em.persist(new Document<>(engine, "engine"));
-		
+		txCommit();
+		em.clear(); // löschen des first level cache
+		txBegin();
+		Manufacturer manufacturer = em.find(Manufacturer.class, bugatti.getId());
+		manufacturer.getVehicles().remove(0);
 		txCommit();
 		
-		
-		Query query = em.createQuery("SELECT d FROM Document d WHERE d.targetDiscriminator = :target");
-		query.setParameter("target", "V");
-		List<Document<?>> docs = query.getResultList();
-		
-		for (Document<?> doc : docs)
-			System.out.println(doc.getTarget().getClass());
 		
 	}
 

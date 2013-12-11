@@ -6,28 +6,36 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 public class Vehicle extends AbstractEntity {
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	private Manufacturer manufacturer;
 	
 	@Column(length=20)
 	private String name;
 
-	@ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+	@ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH}, fetch=FetchType.LAZY)
 	@JoinColumn(name="vehicle_id")
 	private Engine engine;
 	
-	@OneToMany(cascade={CascadeType.ALL})
+	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY)
+	@OrderBy("validFrom DESC")
 	private List<Price> prices = new LinkedList<>();
 	
-	@OneToOne
+	@OneToOne(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
+	@Fetch(FetchMode.SELECT)
 	private Price currentPrice;
 	
 	public Vehicle() {}
@@ -36,6 +44,7 @@ public class Vehicle extends AbstractEntity {
 		super();
 		this.manufacturer = manufacturer;
 		manufacturer.getVehicles().add(this);
+		manufacturer.setLatestVehicle(this);
 		this.name = name;
 		this.engine = engine;
 		this.currentPrice = currentPrice;

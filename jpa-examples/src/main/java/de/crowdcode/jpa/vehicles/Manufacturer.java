@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -14,8 +16,11 @@ public class Manufacturer extends AbstractEntity {
 	@Column(length=20)
 	private String name;
 	
-	@OneToMany(mappedBy="manufacturer", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="manufacturer", cascade = {CascadeType.ALL}, orphanRemoval=true)
 	private List<Vehicle> vehicles = new LinkedList<>();
+	
+	@ManyToOne(fetch=FetchType.EAGER)
+	private Vehicle latestVehicle;
 	
 	public Manufacturer() {
 	}
@@ -39,6 +44,14 @@ public class Manufacturer extends AbstractEntity {
 
 	public void setVehicles(List<Vehicle> vehicles) {
 		this.vehicles = vehicles;
+	}
+
+	public Vehicle getLatestVehicle() {
+		return latestVehicle;
+	}
+
+	public void setLatestVehicle(Vehicle latestVehicle) {
+		this.latestVehicle = latestVehicle;
 	}
 	
 

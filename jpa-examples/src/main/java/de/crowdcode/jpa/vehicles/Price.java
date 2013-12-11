@@ -16,20 +16,15 @@ public class Price extends AbstractEntity {
 	private String currency;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date fromDate;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date toDate;
+	private Date validFrom;
 	
 	public Price() {
 	}
 
-	public Price(double value, String currency, Date fromDate, Date toDate) {
-		super();
+	public Price(double value, String currency, Date validFrom) {
 		this.value = value;
 		this.currency = currency;
-		this.fromDate = fromDate;
-		this.toDate = toDate;
+		this.validFrom = validFrom;
 	}
 
 	public double getValue() {
@@ -48,21 +43,13 @@ public class Price extends AbstractEntity {
 		this.currency = currency;
 	}
 
-	public Date getFromDate() {
-		return fromDate;
+	public Date getValidFrom() {
+		return validFrom;
 	}
 
-	public void setFromDate(Date fromDate) {
-		this.fromDate = fromDate;
+	public void setValidFrom(Date fromDate) {
+		this.validFrom = fromDate;
 	}
 
-	public Date getToDate() {
-		return toDate;
-	}
-
-	public void setToDate(Date toDate) {
-		this.toDate = toDate;
-	}
-	
 
 }
