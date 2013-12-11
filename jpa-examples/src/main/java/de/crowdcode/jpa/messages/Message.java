@@ -1,7 +1,9 @@
 package de.crowdcode.jpa.messages;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.SecondaryTable;
@@ -19,15 +21,26 @@ public class Message {
 	@SequenceGenerator(name="messageSequence", sequenceName="MessageSequence")
 	private Long id;
 
+	@Basic(fetch=FetchType.LAZY)
 	@Column(length=1024, nullable=false)
 	private String text;
 	
+
 	@Column(table="tbl_message_content")
 	private String content;
+	
 	
 	@Transient
 	private String securedHash;
 	
+	
+	public String getSecuredHash() {
+		return securedHash;
+	}
+
+	public void setSecuredHash(String securedHash) {
+		this.securedHash = securedHash;
+	}
 	
 	public String getContent() {
 		return content;

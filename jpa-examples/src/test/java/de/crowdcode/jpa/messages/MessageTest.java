@@ -144,6 +144,8 @@ public class MessageTest {
 	{
 		TypedQuery<Message> query = em.createQuery("SELECT m FROM Message m WHERE m.id = :id", Message.class);
 		query.setParameter("id", messageId);
+		query.setFirstResult(0);
+		query.setMaxResults(1);
 		Message message = query.getSingleResult();
 		assertEquals("updated", message.getText());
 	}

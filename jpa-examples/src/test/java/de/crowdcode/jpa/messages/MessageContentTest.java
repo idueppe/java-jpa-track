@@ -1,6 +1,6 @@
 package de.crowdcode.jpa.messages;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -61,9 +61,15 @@ public class MessageContentTest {
 		messageId = message.getId();
 	}
 	
+	@Test
+	public void test_2_Find() throws Exception {
+		Message msg = em.find(Message.class, messageId);
+		msg.getText();
+	}
+	
 
 	@Test
-	public void test_2_Merge() {
+	public void test_3_Merge() {
 		Message message = new Message();
 		message.setId(messageId);
 		message.setText("Database");
