@@ -30,6 +30,9 @@ public class Document<T extends AbstractEntity> extends AbstractEntity{
 	
 	public String content;
 	
+	@Column(name="target_discriminator", updatable=false, insertable=false )
+	public String targetDiscriminator;
+	
 	
 	public Document() {
 	}

@@ -67,8 +67,8 @@ public class DocumentJpaTest {
 		txCommit();
 		
 		
-		Query query = em.createQuery("SELECT d FROM Document d WHERE d.target = :target");
-		query.setParameter("target", veyron);
+		Query query = em.createQuery("SELECT d FROM Document d WHERE d.targetDiscriminator = :target");
+		query.setParameter("target", "V");
 		List<Document<?>> docs = query.getResultList();
 		
 		for (Document<?> doc : docs)
