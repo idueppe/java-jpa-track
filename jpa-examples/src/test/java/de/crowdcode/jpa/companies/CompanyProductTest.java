@@ -1,5 +1,7 @@
 package de.crowdcode.jpa.companies;
 
+import static org.junit.Assert.*;
+
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -84,6 +86,7 @@ public class CompanyProductTest {
 	public void test_3_References() throws Exception {
 //		Product b = em.getReference(Product.class, 2L);
 		List<AbstractProduct> o = em.createQuery("SELECT o FROM de.crowdcode.jpa.companies.AbstractProduct o", AbstractProduct.class).getResultList();
+		assertNotNull(o);
  		
 	}	
 	

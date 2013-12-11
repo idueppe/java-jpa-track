@@ -1,7 +1,5 @@
 package de.crowdcode.jpa.vehicles;
 
-import static org.junit.Assert.*;
-
 import java.util.Date;
 
 import javax.persistence.EntityManager;
@@ -44,10 +42,10 @@ public class OrphanRemovalJpaTest {
 		Engine engine = new Engine("Engien", 1200.0, EngineType.PETROL);
 		
 		Price price = new Price(1_200_000,"EUR",new Date());
-		Vehicle veyron = new Vehicle(bugatti, "Veyron Supersports", engine, price);
+		new Vehicle(bugatti, "Veyron Supersports", engine, price);
 		
 		Price priceGS = new Price(1_000_000,"EUR",new Date());
-		Vehicle grandSports = new Vehicle(bugatti, "Grand Sport", engine, priceGS);
+		new Vehicle(bugatti, "Grand Sport", engine, priceGS);
 		
 		txBegin();
 		em.persist(bugatti);

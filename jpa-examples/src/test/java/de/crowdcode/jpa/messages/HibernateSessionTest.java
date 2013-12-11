@@ -23,8 +23,6 @@ public class HibernateSessionTest {
 	
 	private EntityManager em;
 	
-	private static Long messageId;
-	
 	@BeforeClass
 	public static void setUpClass()
 	{
@@ -61,7 +59,6 @@ public class HibernateSessionTest {
 		Session session = ((HibernateEntityManager) em).getSession();
 		session.save(message);
 		assertNotNull(message.getId());
-		messageId = message.getId();
 	}
 	
 

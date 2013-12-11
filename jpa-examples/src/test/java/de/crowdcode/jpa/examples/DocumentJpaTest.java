@@ -69,6 +69,7 @@ public class DocumentJpaTest {
 		
 		Query query = em.createQuery("SELECT d FROM Document d WHERE d.targetDiscriminator = :target");
 		query.setParameter("target", "V");
+		@SuppressWarnings("unchecked")
 		List<Document<?>> docs = query.getResultList();
 		
 		for (Document<?> doc : docs)

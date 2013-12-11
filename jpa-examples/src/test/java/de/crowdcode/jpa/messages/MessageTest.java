@@ -134,7 +134,7 @@ public class MessageTest {
 		em.createNativeQuery("SELECT * FROM message WHERE text like '%after%'").getResultList();
 //		em.clear();
 		em.flush();
-		Message found = em.find(Message.class, messageId);
+		em.find(Message.class, messageId);
 		em.refresh(message);
 		
 	}
