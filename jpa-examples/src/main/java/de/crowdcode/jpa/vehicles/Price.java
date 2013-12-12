@@ -6,8 +6,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
 
 @Entity
+@XmlType()
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Price extends AbstractEntity {
 	
 	private double value;

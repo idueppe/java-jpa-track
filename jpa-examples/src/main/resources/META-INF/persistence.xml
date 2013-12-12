@@ -10,7 +10,7 @@
 			<property name="hibernate.connection.username" value="hr" />
 			<property name="hibernate.connection.password" value="oracle" />
 			<property name="hibernate.connection.url" value="jdbc:oracle:thin:@localhost:1521:orcl" />
-			<property name="hibernate.hbm2ddl.auto" value="create" />
+			<property name="hibernate.hbm2ddl.auto" value="create-drop" />
 			<property name="hibernate.format_sql" value="true" />
 			<property name="hibernate.use_sql_comments" value="true" />
 			<property name="hibernate.id.new_generator_mappings" value="true" />

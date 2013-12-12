@@ -26,12 +26,12 @@ public class Document<T extends AbstractEntity> extends AbstractEntity{
 	
 	@Any(metaDef="targetType", metaColumn = @Column(name="target_discriminator", length=1))
 	@JoinColumn(name="target_id")
-	public T target;
+	private T target;
 	
-	public String content;
+	private String content;
 	
 	@Column(name="target_discriminator", updatable=false, insertable=false )
-	public String targetDiscriminator;
+	private String targetDiscriminator;
 	
 	
 	public Document() {

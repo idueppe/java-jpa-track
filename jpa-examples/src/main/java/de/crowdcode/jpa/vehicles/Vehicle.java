@@ -8,16 +8,19 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 @Entity
+@XmlAccessorType(XmlAccessType.PROPERTY)
 public class Vehicle extends AbstractEntity {
 
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -51,6 +54,7 @@ public class Vehicle extends AbstractEntity {
 		prices.add(currentPrice);
 	}
 
+	@XmlTransient
 	public Manufacturer getManufacturer() {
 		return manufacturer;
 	}

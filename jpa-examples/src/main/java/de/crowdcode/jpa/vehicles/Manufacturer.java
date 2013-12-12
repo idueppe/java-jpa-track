@@ -9,8 +9,16 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 
 @Entity
+@XmlRootElement
+@XmlType(name="manufacturer",namespace="http://vehicle")
+@XmlAccessorType(XmlAccessType.PROPERTY)
 public class Manufacturer extends AbstractEntity {
 	
 	@Column(length=20)
@@ -20,6 +28,7 @@ public class Manufacturer extends AbstractEntity {
 	private List<Vehicle> vehicles = new LinkedList<>();
 	
 	@ManyToOne(fetch=FetchType.EAGER)
+	@XmlTransient
 	private Vehicle latestVehicle;
 	
 	public Manufacturer() {
@@ -44,8 +53,11 @@ public class Manufacturer extends AbstractEntity {
 
 	public void setVehicles(List<Vehicle> vehicles) {
 		this.vehicles = vehicles;
+		for (Vehicle vehicle : vehicles)
+			vehicle.setManufacturer(this);
 	}
 
+	@XmlTransient
 	public Vehicle getLatestVehicle() {
 		return latestVehicle;
 	}

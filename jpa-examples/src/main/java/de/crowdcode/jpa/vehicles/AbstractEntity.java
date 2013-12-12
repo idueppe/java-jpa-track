@@ -3,12 +3,19 @@ package de.crowdcode.jpa.vehicles;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 
 @MappedSuperclass
+@XmlType
+@XmlAccessorType(XmlAccessType.FIELD)
 public abstract class AbstractEntity {
 
 	@Id
 	@GeneratedValue
+	@XmlTransient
 	private Long id;
 
 	public Long getId() {

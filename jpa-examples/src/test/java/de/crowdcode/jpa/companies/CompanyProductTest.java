@@ -1,12 +1,14 @@
 package de.crowdcode.jpa.companies;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.persistence.RollbackException;
 
 import org.junit.After;
@@ -69,6 +71,30 @@ public class CompanyProductTest {
 		commitTx();
 	}
 	
+	@Test
+	public void test_4_Persist() {
+		beginTx();
+		Company company = new Company("tutego");
+		Product product1 = new Product("name1", company);
+		Product product2 = new Product("name2", company);
+		em.persist(company);
+		em.persist(product1);
+		em.persist(product2);
+		commitTx();
+		em.clear();
+		Company landdata = new Company("land-data");
+		landdata.getProducts().add(product1);
+		product1.setCompany(landdata);
+		beginTx();
+		em.persist(landdata);
+		em.merge(product1);
+		commitTx();
+		em.clear();
+		Product found = em.find(Product.class, product1.getId());
+		System.out.println(found.getCompany());
+		
+	}
+	
 	
 	@Test(expected=RollbackException.class)
 	public void test_2_ConstraintViolation() {
@@ -81,6 +107,35 @@ public class CompanyProductTest {
 		em.persist(product2);
 		commitTx();
 	}
+	
+	@Test
+	public void testDeferred() throws Exception {
+		beginTx();
+		Company company = new Company("tutego");
+		Product product1 = new Product("name1", company);
+		Product product2 = new Product("name2", company);
+
+		Query deferred = em.createNativeQuery("set constraint all deferred");
+		deferred.executeUpdate();
+		em.persist(product1);
+		em.persist(product2);
+		em.persist(company);
+		em.flush();
+		commitTx();
+		
+		em.clear();
+		Company comp = new Company("2");
+		product1.setCompany(comp);
+		beginTx();
+		em.persist(comp);
+		em.merge(product1);
+		commitTx();
+		em.clear();
+		Product found = em.find(Product.class, product1.getId());
+		assertEquals(company, found.getCompany());
+		
+	}
+	
 	
 	@Test
 	public void test_3_References() throws Exception {

@@ -7,7 +7,7 @@ import javax.persistence.MappedSuperclass;
 public abstract class AbstractProduct {
 
 	@Column(name="product_no")
-	private Long productNo;
+	private Long productNo = System.currentTimeMillis();
 
 	public Long getProductNo() {
 		return productNo;
@@ -41,6 +41,11 @@ public abstract class AbstractProduct {
 		} else if (!productNo.equals(other.productNo))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "AbstractProduct [productNo=" + productNo + "]";
 	}
 	
 }

@@ -18,8 +18,9 @@ public class Company {
 	
 	private String name;
 	
-	@OneToMany
-	@JoinColumn(name="company_id")
+	@OneToMany(mappedBy="company")
+//	@OneToMany()
+//	@JoinColumn(name="company_id")
 	private List<Product> products = new LinkedList<>();
 	
 	public List<Product> getProducts() {
@@ -52,5 +53,13 @@ public class Company {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	@Override
+	public String toString() {
+		return "Company [id=" + id + ", name=" + name + ", products="
+				+ products + "]";
+	}
+	
+	
 	
 }
