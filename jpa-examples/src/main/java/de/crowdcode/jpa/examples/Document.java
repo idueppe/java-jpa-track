@@ -8,7 +8,7 @@ import org.hibernate.annotations.Any;
 import org.hibernate.annotations.AnyMetaDef;
 import org.hibernate.annotations.MetaValue;
 
-import de.crowdcode.jpa.vehicles.AbstractEntity;
+import de.crowdcode.jpa.common.AbstractEntity;
 import de.crowdcode.jpa.vehicles.Engine;
 import de.crowdcode.jpa.vehicles.Manufacturer;
 import de.crowdcode.jpa.vehicles.Vehicle;

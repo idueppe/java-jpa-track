@@ -107,7 +107,7 @@ public class MessageTest {
 	{
 		Message message = em.find(Message.class, messageId);
 		
-		Query query = em.createNativeQuery("UPDATE Message SET text=:text WHERE id=:id");
+		Query query = em.createNativeQuery("UPDATE tbl_message SET text=:text WHERE id=:id");
 		query.setParameter("id", messageId);
 		query.setParameter("text", "updated");
 		query.executeUpdate();
@@ -130,8 +130,8 @@ public class MessageTest {
 		message.setText("after flush");
 		// em.flush()
 		em.createQuery("SELECT m FROM Message m").getResultList();
-		em.createNativeQuery("UPDATE Message SET text='updated' WHERE text like '%after%'").executeUpdate();
-		em.createNativeQuery("SELECT * FROM message WHERE text like '%after%'").getResultList();
+		em.createNativeQuery("UPDATE tbl_message SET text='updated' WHERE text like '%after%'").executeUpdate();
+		em.createNativeQuery("SELECT * FROM tbl_message WHERE text like '%after%'").getResultList();
 //		em.clear();
 		em.flush();
 		em.find(Message.class, messageId);

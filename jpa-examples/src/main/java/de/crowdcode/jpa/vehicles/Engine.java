@@ -8,6 +8,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
+import de.crowdcode.jpa.common.AbstractEntity;
+
 @Entity
 @XmlType()
 @XmlAccessorType(XmlAccessType.PROPERTY)

@@ -1,8 +1,6 @@
 package de.crowdcode.jpa.companies;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -13,9 +11,6 @@ import javax.persistence.UniqueConstraint;
 		"name", "company_id" }) })
 public class Product extends AbstractProduct {
 
-	@Id
-	@GeneratedValue
-	private Long id;
 
 	private String name;
 
@@ -31,14 +26,6 @@ public class Product extends AbstractProduct {
 		this.name = name;
 		company.getProducts().add(this);
 		this.company = company;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getName() {
@@ -59,8 +46,7 @@ public class Product extends AbstractProduct {
 
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", company=" + company
-				+ "]";
+		return "Product [id=" + getId() + ", name=" + name + "]";
 	}
 
 }

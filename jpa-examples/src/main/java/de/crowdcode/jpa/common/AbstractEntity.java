@@ -1,4 +1,4 @@
-package de.crowdcode.jpa.vehicles;
+package de.crowdcode.jpa.common;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -49,6 +49,11 @@ public abstract class AbstractEntity {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "AbstractEntity [id=" + id + "]";
 	}
 	
 	

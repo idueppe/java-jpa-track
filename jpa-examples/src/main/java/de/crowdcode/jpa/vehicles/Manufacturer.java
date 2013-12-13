@@ -15,6 +15,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
+import de.crowdcode.jpa.common.AbstractEntity;
+
 @Entity
 @XmlRootElement
 @XmlType(name="manufacturer",namespace="http://vehicle")

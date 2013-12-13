@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 
+import de.crowdcode.jpa.common.AbstractEntity;
+
 @Entity
 public class Customer extends AbstractEntity {
 

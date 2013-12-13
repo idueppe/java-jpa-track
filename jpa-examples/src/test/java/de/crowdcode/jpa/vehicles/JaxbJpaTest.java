@@ -23,6 +23,8 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
+import de.crowdcode.jpa.common.AbstractEntity;
+
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class JaxbJpaTest {
 

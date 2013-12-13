@@ -1,8 +1,7 @@
 package de.crowdcode.jpa.visitor;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-
-import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -57,29 +56,51 @@ public class VisitorTest {
 	}
 	
 	private Orga organisation;
+	
+	
 
-	@Test
-	public void testVisitor() {
-		beginTx();
-		Orga orga = new Orga();
-		Benutzer benutzer = new Benutzer(orga);
+//	@Test(expected=ClassCastException.class) 
+	@Test()
+	public void testVisitorWithoutVisitor() {
+		Long benutzerId = buildDataStructureInDB();
+		Benutzer b = em.find(Benutzer.class, benutzerId);
+
+//		System.out.println(b.getAkteur().getClass());
+//		System.out.println(b.getAkteur().getClass().getSuperclass());
+//		System.out.println(b.getAkteur().getClass().getSuperclass().getSuperclass());
+//		System.out.println(b.getAkteur().getOrganisation().getClass());
+//		System.out.println(b.getAkteur().getOrganisation().getClass().getSuperclass());
+//		System.out.println(b.getAkteur().getOrganisation().getClass().getSuperclass().getSuperclass());
 		
-		em.persist(benutzer);
-		em.persist(orga);
-		commitTx();
 		
-		em.clear();
-		Benutzer b = em.find(Benutzer.class, benutzer.getId());
-		
-//		Akteur akteur = em.find(Akteur.class, orga.getId());
-		
+// 		Produces an ClassCastException if Lazy Loading is active in Version 4.1.6.Final
+// 		newer version will perform a Proxy Narrowing
+		Orga found = b.getAkteur().getOrganisation(); 
+		assertEquals("crowdcode", found.getName());
+		assertEquals("data 1", found.getData().get(0).getContent());
+		assertNotNull(found);
+	}
+	
+	@Test()
+	public void testWithInnerVisitor() {
+		Long benutzerId = buildDataStructureInDB();
+		Benutzer b = em.find(Benutzer.class, benutzerId);
 		
 		System.out.println(b.getAkteur().getClass());
 		System.out.println(b.getAkteur().getClass().getSuperclass());
 		System.out.println(b.getAkteur().getClass().getSuperclass().getSuperclass());
 		
-		Orga found = b.getAkteur().getOrganisation();
-		
+// 		Produces an ClassCastException if Lazy Loading is active
+		Orga found = b.getAkteur().getVisitorOrga().pop();
+		assertEquals("crowdcode", found.getName());
+		assertNotNull(found);
+	}
+	
+	
+	@Test
+	public void testVisitor() {
+		Long benutzerId = buildDataStructureInDB();
+		Benutzer b = em.find(Benutzer.class, benutzerId);
 		
 		b.getAkteur().accept(new AkteurVisitor() {
 			
@@ -98,7 +119,19 @@ public class VisitorTest {
 		
 		System.out.println(organisation);
 		
-		assertNotNull(found);
+	}
+
+	private Long buildDataStructureInDB() {
+		beginTx();
+		Orga orga = new Orga(new Data("data 1"), new Data("data 2"));
+		orga.setName("crowdcode");
+		Benutzer benutzer = new Benutzer(orga);
+		
+		em.persist(benutzer);
+		em.persist(orga);
+		commitTx();
+		em.clear();
+		return benutzer.getId();
 	}
 	
 	

@@ -6,6 +6,12 @@
 	<version>1.0.0-SNAPSHOT</version>
 	<name>jpa-examples</name>
 
+	<properties>
+<!-- 		<hibernate.version>4.3.0.CR2</hibernate.version> -->
+		<hibernate.version>4.2.8.Final</hibernate.version>
+<!-- 		<hibernate.version>4.1.6.Final</hibernate.version> --> 
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -17,13 +23,13 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>4.1.6.Final</version>
+			<version>${hibernate.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>4.1.6.Final</version>
+			<version>${hibernate.version}</version>
 		</dependency>
 
 		<dependency>

@@ -99,7 +99,7 @@ public class CompanyProductTest {
 	@Test(expected=RollbackException.class)
 	public void test_2_ConstraintViolation() {
 		beginTx();
-		Company company = new Company("tutego");
+		Company company = new Company("crowdcode");
 		Product product1 = new Product("name1", company);
 		Product product2 = new Product("name1", company);
 		em.persist(company);
@@ -111,27 +111,33 @@ public class CompanyProductTest {
 	@Test
 	public void testDeferred() throws Exception {
 		beginTx();
-		Company company = new Company("tutego");
+		Company company = new Company("crowdcode");
 		Product product1 = new Product("name1", company);
 		Product product2 = new Product("name2", company);
 
 		Query deferred = em.createNativeQuery("set constraint all deferred");
 		deferred.executeUpdate();
+		em.persist(company);
 		em.persist(product1);
 		em.persist(product2);
-		em.persist(company);
 		em.flush();
 		commitTx();
 		
 		em.clear();
-		Company comp = new Company("2");
+		Product found = em.find(Product.class, product1.getId());
+		assertEquals(company, found.getCompany());
+		em.clear();
+		
+		Company comp = new Company("crowdcode");
+		company.getProducts().add(product1);
 		product1.setCompany(comp);
 		beginTx();
 		em.persist(comp);
 		em.merge(product1);
 		commitTx();
+		
 		em.clear();
-		Product found = em.find(Product.class, product1.getId());
+		found = em.find(Product.class, product1.getId());
 		assertEquals(company, found.getCompany());
 		
 	}

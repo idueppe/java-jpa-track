@@ -4,18 +4,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
-@Entity
-public class Company {
+import de.crowdcode.jpa.common.AbstractEntity;
 
-	@Id
-	@GeneratedValue
-	private Long id;
-	
+@Entity
+public class Company extends AbstractEntity {
+
 	private String name;
 	
 	@OneToMany(mappedBy="company")
@@ -38,14 +33,6 @@ public class Company {
 		this.name = name;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -56,7 +43,7 @@ public class Company {
 
 	@Override
 	public String toString() {
-		return "Company [id=" + id + ", name=" + name + ", products="
+		return "Company [id=" + getId() + ", name=" + name + ", products="
 				+ products + "]";
 	}
 	

@@ -19,6 +19,8 @@ import javax.xml.bind.annotation.XmlTransient;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import de.crowdcode.jpa.common.AbstractEntity;
+
 @Entity
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class Vehicle extends AbstractEntity {

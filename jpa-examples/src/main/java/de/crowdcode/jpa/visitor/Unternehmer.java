@@ -13,7 +13,6 @@ public class Unternehmer extends Akteur {
 	}
 	
 	public Unternehmer(Orga orga) {
-		super();
 		this.orga = orga;
 	}
 

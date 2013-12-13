@@ -3,8 +3,10 @@ package de.crowdcode.jpa.companies;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
+import de.crowdcode.jpa.common.AbstractEntity;
+
 @MappedSuperclass
-public abstract class AbstractProduct {
+public abstract class AbstractProduct extends AbstractEntity {
 
 	@Column(name="product_no")
 	private Long productNo = System.currentTimeMillis();

@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 
-import de.crowdcode.jpa.vehicles.AbstractEntity;
+import de.crowdcode.jpa.common.AbstractEntity;
 
 @Entity
 public class Benutzer extends AbstractEntity {
